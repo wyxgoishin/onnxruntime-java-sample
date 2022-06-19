@@ -19,9 +19,10 @@ will be padded with 'sintel' fashion before inference to be divisible by 8)
   - iters are fixed at 20 (as currently I found no method to pass a
 scalar to onnx model. Passing a tensor with shape as iters doesn't work
 fine)
-  - up-sampling is implemented by torch.nn.functional.interpolate() rather
-than mask which show better performance, as onnx don't support 
-torch.Softmax() which is used in mask
+  - up-sampling is implemented by `upflow8()` rather than `upsample_flow()`, as onnx don't support 
+`torch.softmax()` which is used in `upsample_flow()`
+  - `torch.nn.function.grid_sample()` is replaced by `mmcv.op.point_sample.bilinear_grid_sample()`
+as previous one is not supported for exporting runnable model
 2. model output:
   - flow (B * H * W * C tensor (float32), which is the uppadded result of up-sampled 
 flow)
