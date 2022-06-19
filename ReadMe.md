@@ -4,7 +4,7 @@ If you wish to test it yourself, you can download RAFT model from
 [official repository](https://github.com/princeton-vl/RAFT) and export
 pretrained model to onnx format. It's also to be noted that I have
 made specific changes as list below:
-0. run project:
+1. run project:
   - To run the project, at least jdk 9 is required
   - Because this project depends on opencv 4.5.5 and I have installed it manually for packaging,
 you need to install it through maven manually as well. The code is as below:
@@ -13,7 +13,7 @@ mvn install:install-file -DgroupId=org -DartifactId=opencv -Dversion="4.5.5" -Dp
 ```
   - If you change the version of opencv to be used, don't forget to change the 'OpencvDllName' field in 
 MiscUtil.java as well
-1. model input: 
+2. model input: 
   - image1 and image2 (both H * W * C tensor (float32), and its' height and width
 will be padded with 'sintel' fashion before inference to be divisible by 8)
   - iters are fixed at 20 (as currently I found no method to pass a
@@ -23,10 +23,10 @@ fine)
 `torch.softmax()` which is used in `upsample_flow()`
   - `torch.nn.function.grid_sample()` is replaced by `mmcv.op.point_sample.bilinear_grid_sample()`
 as previous one is not supported for exporting runnable model
-2. model output:
+3. model output:
   - flow (B * H * W * C tensor (float32), which is the uppadded result of up-sampled 
 flow)
-3. save flow:
+4. save flow:
   - Currently, I don't found a proper way to save image with depth as CV_32F.
 I have tested tiff and hdr, but both can't store the origin value. May you can try
 exr format, but that needs extra compiling of opencv.
